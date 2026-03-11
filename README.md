@@ -1,95 +1,108 @@
 # Language Identity Engine
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > Un idioma no solo se lee. También se ve.
 
-**Language Identity Engine** genera identidades visuales dinámicas a partir de métricas lingüísticas. Cada idioma obtiene una paleta de colores, tipografía, espaciado y animaciones derivados de su perfil fonológico, morfológico y tipográfico.
+Genera identidades visuales dinámicas a partir de métricas lingüísticas. Cada idioma obtiene una paleta de colores, tipografía, espaciado y animaciones derivados de su perfil fonológico, morfológico y tipográfico.
+
+---
+
+## Tabla de contenidos
+
+- [Inicio rápido](#-inicio-rápido)
+- [¿Para qué?](#-para-qué)
+- [Tecnologías](#-tecnologías)
+- [Estructura](#-estructura)
+- [Desarrollo](#-desarrollo)
+- [Documentación](#-documentación)
+
+---
+
+## Inicio rápido
+
+```bash
+git clone https://github.com/Pizarradas/syx-main--languages.git
+cd syx-main--languages
+npm install
+npm run build:css
+npm start
+```
+
+Abre [http://localhost:3000](http://localhost:3000) en el navegador.
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm run build:css` | Compila SCSS → CSS |
+| `npm run build:css:watch` | Compilación en modo watch |
+| `npm start` | Sirve la app (puerto 3000) |
 
 ---
 
 ## ¿Para qué?
 
-- **Diseño multilingüe**: Aplicar identidades visuales coherentes con la naturaleza de cada idioma.
-- **Investigación**: Explorar la relación entre estructura lingüística y percepción visual.
-- **Exportación**: Obtener tokens CSS y JSON para integrar en sistemas de diseño.
-- **Comparación**: Contrastar dos idiomas lado a lado (paletas, métricas, radar).
-
----
-
-## ¿Por qué?
-
-Los idiomas difieren en sonoridad, morfología, longitud de palabra, densidad de script, etc. Esas diferencias pueden traducirse en decisiones visuales: un idioma con muchas vocales y curvas suaves puede evocar colores cálidos y tipografía fluida; uno con consonantes densas y morfología compleja puede sugerir tonos fríos y estructuras más rígidas. El motor convierte esas intuiciones en un pipeline algorítmico y científicamente fundamentado.
-
----
-
-## Filosofía
-
-1. **Una sola página**: Toda la aplicación es una única HTML. No hay rutas ni layouts separados.
-2. **Métricas → identidad**: Las 12 métricas lingüísticas alimentan el motor; no hay paletas manuales por idioma.
-3. **Base científica**: Colores basados en espectro visible (CIE 1931), OKLCH, Weber-Fechner y contraste WCAG.
-4. **SYX theming**: Los tokens generados se aplican vía variables CSS y el sistema de temas SYX.
+- **Diseño multilingüe** — Identidades visuales coherentes con la naturaleza de cada idioma
+- **Investigación** — Relación entre estructura lingüística y percepción visual
+- **Exportación** — Tokens CSS y JSON para integrar en sistemas de diseño
+- **Comparación** — Dos idiomas lado a lado (paletas, métricas, radar)
 
 ---
 
 ## Tecnologías
 
 | Área | Stack |
-|-----|-------|
-| **Frontend** | HTML5, CSS (SCSS), JavaScript (ES modules) |
-| **Sistema de diseño** | SYX Design System |
-| **Gráficos** | Chart.js 4.x (radar, barras, doughnut) |
-| **Animaciones** | GSAP 3.x |
-| **Fuentes** | Google Fonts (Lora, Noto Serif, Space Grotesk, etc.) |
-| **Colores** | OKLCH, base espectral 380–700 nm |
+|------|-------|
+| Frontend | HTML5, CSS (SCSS), JavaScript (ES modules) |
+| Sistema de diseño | SYX Design System |
+| Gráficos | Chart.js 4.x |
+| Animaciones | GSAP 3.x |
+| Colores | OKLCH, CIE 1931, Weber-Fechner |
 
 ---
 
-## Estructura del proyecto
+## Estructura
 
 ```
 ├── index.html              # Página única (Explorar, Comparar, Análisis)
-├── js/
-│   ├── main.js             # Entry point, selector, vistas
-│   ├── data.js             # LANGUAGES (34 idiomas), METRIC_INFO
-│   ├── identity.js         # computeIdentity() — motor principal
-│   ├── color-science.js    # λ→hue, chroma, contraste (base científica)
-│   ├── theme.js            # applyTheme(), updateContent()
-│   ├── charts.js           # Radar explorar + radar comparar
-│   ├── compare.js          # Vista Comparar
-│   ├── analytics.js        # Datos para gráficos
-│   ├── analytics-charts.js # Gráficos de análisis
-│   └── export.js           # Exportar CSS / JSON
+├── js/                     # Módulos ES (main, identity, charts, export…)
 ├── syx-main--languages/
-│   ├── css/styles-languages.css   # Compilado desde scss/
-│   ├── scss/
-│   └── img/flags/                # Banderas SVG (ISO 3166-1)
-├── package.json                  # Scripts de build y serve
-├── .gitignore
+│   ├── css/                # styles-languages.css (compilado)
+│   ├── scss/               # Fuentes SCSS
+│   └── img/flags/          # Banderas SVG (34 idiomas)
+├── docs/                   # Documentación del proyecto
+├── package.json
 └── README.md
 ```
 
 ---
 
-## Pipeline visual
+## Desarrollo
 
-```
-12 métricas lingüísticas
-    ↓
-macro-indicators (softness · density)
-    ↓
-fingerprint → longitud de onda λ (380–700 nm)
-    ↓
-hue OKLCH · chroma (gamut) · lightness (Weber-Fechner)
-    ↓
-paleta (bg, accent, secondary +150°, tertiary +120°)
-    ↓
-tipografía · espaciado · animación · sombras
-    ↓
-SYX theme aplicado
-```
+1. **Clonar** el repositorio
+2. **Instalar** dependencias: `npm install`
+3. **Compilar** estilos: `npm run build:css`
+4. **Servir** localmente: `npm start`
+
+**Despliegue:** Compatible con GitHub Pages, Netlify, Vercel. La raíz del repo es la raíz del sitio.
 
 ---
 
-## Métricas lingüísticas (12)
+## Documentación
+
+<details>
+<summary><b>Pipeline visual</b></summary>
+
+```
+12 métricas lingüísticas → macro-indicators (softness · density)
+    → fingerprint λ (380–700 nm) → hue OKLCH · chroma · lightness
+    → paleta (bg, accent, secondary, tertiary) → tipografía · espaciado · animación
+    → SYX theme aplicado
+```
+
+</details>
+
+<details>
+<summary><b>Métricas lingüísticas (12)</b></summary>
 
 | Métrica | Descripción |
 |---------|-------------|
@@ -106,65 +119,37 @@ SYX theme aplicado
 | Char. Curvature | Curvatura de caracteres |
 | Diacritic Freq. | Frecuencia de diacríticos |
 
----
+</details>
 
-## Idiomas soportados (34)
+<details>
+<summary><b>Idiomas soportados (34)</b></summary>
 
 Español, English, 日本語, العربية, Suomi, 中文, 한국어, हिन्दी, Deutsch, Français, Português, Русский, Italiano, Ελληνικά, Türkçe, עברית, ภาษาไทย, Tiếng Việt, Bahasa Indonesia, Kiswahili, Polski, Nederlands, Svenska, Magyar, فارسی, ქართული, தமிழ், Cymraeg, Euskara, Te Reo Māori, Tagalog, Íslenska, Gaeilge, Հայերեն, Lietuvių, Malti, Eesti.
 
----
+</details>
 
-## Vistas
+<details>
+<summary><b>Base científica del color</b></summary>
 
-- **Explorar**: Un idioma, radar de métricas, poema, paleta, tipografía.
-- **Comparar**: Dos idiomas lado a lado, radar superpuesto, exportación A/B.
-- **Análisis**: Temperatura cromática, familias tipográficas, scripts, hue por idioma (ordenado por temperatura cromática), perfil de jerarquía.
+- **CIE 1931** — Espectro visible 380–700 nm, locus cromático
+- **OKLCH** — Espacio perceptual (Björn Ottosson)
+- **Chroma por hue** — Escala según gamut y elipses de MacAdam
+- **Weber-Fechner** — Pasos de luminosidad perceptualmente uniformes
+- **WCAG** — Contraste mínimo 3:1 para componentes UI
 
----
-
-## Exportación
-
-- **CSS**: Variables OKLCH y tokens del tema.
-- **JSON**: Identidad completa (colores, tipografía, métricas).
-
-En modo Comparar: opciones separadas para idioma A y B.
+</details>
 
 ---
 
-## Base científica del color
+## Filosofía
 
-- **CIE 1931**: Espectro visible 380–700 nm, locus cromático.
-- **OKLCH**: Espacio perceptual (Björn Ottosson).
-- **Chroma por hue**: Escala según gamut y elipses de MacAdam.
-- **Weber-Fechner**: Pasos de luminosidad perceptualmente uniformes.
-- **WCAG**: Contraste mínimo 3:1 para componentes UI.
-
----
-
-## Desarrollo
-
-```bash
-# Clonar el repositorio
-git clone <url-del-repo>
-cd language-identity-engine
-
-# Compilar estilos (si modificas SCSS)
-npm run build:css
-
-# Servir localmente
-npm start
-# o: npx serve .
-```
-
-**Scripts disponibles:**
-- `npm run build:css` — Compila `styles-languages.scss` → CSS
-- `npm run build:css:watch` — Compilación en modo watch
-- `npm start` — Sirve la raíz por HTTP (puerto 3000 por defecto)
-
-**Despliegue:** Compatible con GitHub Pages, Netlify, Vercel, etc. La raíz del repo es la raíz del sitio; `index.html` y las rutas relativas funcionan sin configuración adicional.
+1. **Una sola página** — Toda la app es una única HTML; no hay rutas ni layouts separados
+2. **Métricas → identidad** — 12 métricas alimentan el motor; no hay paletas manuales
+3. **Base científica** — Colores basados en espectro visible, OKLCH, Weber-Fechner
+4. **SYX theming** — Tokens aplicados vía variables CSS
 
 ---
 
-## Regla crítica
+## Licencia
 
-La aplicación debe ser **una sola página HTML**. No hay múltiples páginas ni layouts por idioma. Todo se controla por estado (idioma seleccionado, vista activa) y actualización dinámica del DOM.
+MIT — ver [LICENSE](syx-main--languages/LICENSE) en el subproyecto SYX.
