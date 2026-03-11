@@ -1,0 +1,25 @@
+// ATOM: SECTION-LABEL
+// ================================================
+// Small caps accent label used as section headers
+// within identity-panel and theme-panel organisms.
+// Transitions with the language accent color.
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin atom-section-label($theme: null) {
+  @layer syx.atoms {
+
+    .atom-section-label {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--app-accent);
+      margin-bottom: 0.25rem;
+      @include transition(color 0.5s ease);
+    }
+
+  }
+  // end @layer syx.atoms
+}

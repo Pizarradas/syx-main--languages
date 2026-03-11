@@ -1,0 +1,25 @@
+// ATOM: TYPO-CHIP
+// ================================================
+// Small label chip displaying a typography metric
+// (letter-spacing, line-height, border-radius).
+// Used in mol-typo-specimen.
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin atom-typo-chip($theme: null) {
+  @layer syx.atoms {
+
+    .atom-typo-chip {
+      display: inline-block;
+      font-size: 0.62rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--app-border-2);
+      border-radius: 3px;
+      color: var(--app-text-3);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.4;
+    }
+
+  }
+  // end @layer syx.atoms
+}

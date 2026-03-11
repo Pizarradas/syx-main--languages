@@ -1,0 +1,66 @@
+// ATOM: LANG-PILL
+// ================================================
+// Language selector button. Used in org-lang-header nav.
+// Variants: --active
+// Elements: __code (2-letter code), __name (full name)
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin atom-lang-pill($theme: null) {
+  @layer syx.atoms {
+
+    .atom-lang-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 2rem;
+      border: 1px solid var(--app-border);
+      background: transparent;
+      color: var(--app-text-2);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 500;
+      white-space: nowrap;
+      @include transition(all 0.2s ease);
+
+      &:hover {
+        border-color: var(--app-accent);
+        color: var(--app-text);
+        background: color-mix(in oklch, var(--app-accent) 10%, transparent);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--app-accent);
+        outline-offset: 2px;
+      }
+
+      // --active — currently selected language
+      &--active {
+        border-color: var(--app-accent);
+        background: color-mix(in oklch, var(--app-accent) 18%, transparent);
+        color: var(--app-accent);
+
+        .atom-lang-pill__code {
+          opacity: 1;
+        }
+      }
+
+      // __code — ISO code (ES, EN, JA…)
+      &__code {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        opacity: 0.7;
+      }
+
+      // __name — full display name
+      &__name {
+        // inherits from .atom-lang-pill
+      }
+    }
+
+  }
+  // end @layer syx.atoms
+}

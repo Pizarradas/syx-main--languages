@@ -1,0 +1,41 @@
+// ATOM: MACRO-BAR
+// ================================================
+// Horizontal progress/metric bar.
+// Used in mol-macro-item and mol-metric-row.
+// Elements: __fill (the colored progress track)
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin atom-macro-bar($theme: null) {
+  @layer syx.atoms {
+
+    .atom-macro-bar {
+      height: 4px;
+      background: var(--app-border);
+      border-radius: 2px;
+      overflow: hidden;
+
+      // --sm — thinner variant used in metric rows
+      &--sm {
+        height: 3px;
+        background: var(--app-border-2);
+      }
+
+      // __fill — the active/value portion of the bar
+      &__fill {
+        height: 100%;
+        background: var(--app-accent);
+        border-radius: 2px;
+        transform-origin: left;
+        @include transition(background 0.5s ease);
+
+        // Dimmer fill variant used in detail metrics
+        .atom-macro-bar--sm & {
+          background: color-mix(in oklch, var(--app-accent) 60%, var(--app-text-3));
+        }
+      }
+    }
+
+  }
+  // end @layer syx.atoms
+}
