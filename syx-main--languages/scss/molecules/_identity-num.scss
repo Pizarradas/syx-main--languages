@@ -1,0 +1,45 @@
+// MOLECULE: IDENTITY-NUM
+// ================================================
+// Identity profile number card: label + large value.
+// Displays computed values: hue, chroma, softness, density.
+// Overridden by the identity engine JS on language change.
+// Elements: __label, __value
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-identity-num($theme: null) {
+  @layer syx.molecules {
+
+    .mol-identity-num {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.75rem;
+      background: var(--app-bg-2);
+      border: 1px solid var(--app-border-2);
+      border-radius: 6px;
+      @include transition(background 0.5s ease, border-color 0.5s ease);
+
+      // __label — metric name (e.g. "Hue", "Chroma")
+      &__label {
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--app-text-3);
+      }
+
+      // __value — computed number, updated by JS
+      &__value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: var(--app-accent);
+        letter-spacing: -0.02em;
+        @include transition(color 0.5s ease);
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

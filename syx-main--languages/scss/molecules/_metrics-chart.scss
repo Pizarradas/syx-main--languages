@@ -1,0 +1,49 @@
+// MOLECULE: METRICS-CHART
+// ================================================
+// Radar/spider chart container rendered by Chart.js.
+// Houses the <canvas id="metrics-radar"> and its
+// label. Sits inside org-identity-panel__chart-section.
+// Elements: __canvas-wrap, __label, __subtitle
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-metrics-chart($theme: null) {
+  @layer syx.molecules {
+
+    .mol-metrics-chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      // __canvas-wrap — square container; Chart.js fills it
+      &__canvas-wrap {
+        width: 100%;
+        max-width: 240px;
+        aspect-ratio: 1;
+        position: relative;
+      }
+
+      // __label — "Linguistic Profile" eyebrow
+      &__label {
+        font-size: 0.62rem;
+        letter-spacing: 0.10em;
+        text-transform: uppercase;
+        color: var(--app-text-3);
+        text-align: center;
+      }
+
+      // __subtitle — brief description below label
+      &__subtitle {
+        font-size: 0.60rem;
+        color: var(--app-text-3);
+        text-align: center;
+        opacity: 0.65;
+        max-width: 220px;
+        line-height: 1.4;
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

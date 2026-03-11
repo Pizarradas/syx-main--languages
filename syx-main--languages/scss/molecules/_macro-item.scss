@@ -1,0 +1,46 @@
+// MOLECULE: MACRO-ITEM
+// ================================================
+// Macro-indicator display: label + numeric value + bar.
+// Combines: atom-section-label (internal label),
+//           atom-macro-bar (progress bar).
+// Used in org-identity-panel.
+// Elements: __header, __label, __value
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-macro-item($theme: null) {
+  @layer syx.molecules {
+
+    .mol-macro-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      // __header — row with label + value side by side
+      &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+
+      // __label — metric name
+      &__label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--app-text-2);
+      }
+
+      // __value — numeric readout (overridden by JS)
+      &__value {
+        font-size: 0.78rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: var(--app-accent);
+        @include transition(color 0.5s ease);
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

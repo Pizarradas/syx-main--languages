@@ -1,0 +1,177 @@
+// MOLECULE: LANG-SELECTOR
+// ================================================
+// Compact dropdown for switching languages.
+// Replaces the pill row — scales to N languages.
+// Accessible: listbox ARIA pattern.
+//
+// Elements: __trigger, __code, __name, __chevron,
+//           __panel, __option (--active variant),
+//           __opt-code, __opt-name, __opt-script
+// States:   --open (on .mol-lang-selector root)
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-lang-selector($theme: null) {
+  @layer syx.molecules {
+
+    .mol-lang-selector {
+      position: relative;
+
+      // __trigger — compact button showing active language
+      &__trigger {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.3rem 0.7rem 0.3rem 0.4rem;
+        border-radius: 2rem;
+        border: 1px solid var(--app-accent);
+        background: color-mix(in oklch, var(--app-accent) 8%, transparent);
+        color: var(--app-accent);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.78rem;
+        font-weight: 500;
+        white-space: nowrap;
+        @include transition(all 0.2s ease);
+
+        &:hover {
+          background: color-mix(in oklch, var(--app-accent) 16%, transparent);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--app-accent);
+          outline-offset: 2px;
+        }
+      }
+
+      // __trigger-flag — country flag image in trigger button
+      &__trigger-flag {
+        width: 22px;
+        height: 16px;
+        object-fit: cover;
+        border-radius: 2px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      // __code — ISO code (ES, EN…)
+      &__code {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        opacity: 0.75;
+      }
+
+      // __name — full language name
+      &__name {
+        letter-spacing: 0.01em;
+      }
+
+      // __chevron — SVG arrow, rotates when open
+      &__chevron {
+        width: 10px;
+        height: 6px;
+        flex-shrink: 0;
+        @include transition(transform 0.2s ease);
+
+        .mol-lang-selector--open & {
+          transform: rotate(180deg);
+        }
+      }
+
+      // __panel — dropdown list, absolutely positioned
+      &__panel {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        min-width: 240px;
+        max-height: 60vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--app-border) transparent;
+        background: color-mix(in oklch, var(--app-bg-2) 85%, transparent);
+        backdrop-filter: blur(var(--app-backdrop-blur, 4px));
+        -webkit-backdrop-filter: blur(var(--app-backdrop-blur, 4px));
+        border: 1px solid var(--app-border);
+        border-radius: 8px;
+        padding: 0.3rem;
+        list-style: none;
+        margin: 0;
+        z-index: 200;
+        box-shadow: 0 12px 32px oklch(0 0 0 / 0.45);
+
+        // Hidden by default
+        opacity: 0;
+        transform: translateY(-6px);
+        pointer-events: none;
+        @include transition(opacity 0.15s ease, transform 0.15s ease);
+
+        .mol-lang-selector--open & {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+      }
+
+      // __option — single language row in dropdown
+      &__option {
+        display: grid;
+        grid-template-columns: 26px 1fr auto;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.55rem 0.75rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.78rem;
+        color: var(--app-text-2);
+        @include transition(background 0.1s ease, color 0.1s ease);
+
+        &:hover {
+          background: color-mix(in oklch, var(--app-accent) 10%, transparent);
+          color: var(--app-text);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--app-accent);
+          outline-offset: -2px;
+        }
+
+        // --active — currently selected language
+        &--active {
+          color: var(--app-accent);
+          background: color-mix(in oklch, var(--app-accent) 8%, transparent);
+
+          .mol-lang-selector__opt-code {
+            opacity: 1;
+          }
+        }
+      }
+
+      // __opt-flag — country flag in each option
+      &__opt-flag {
+        width: 22px;
+        height: 16px;
+        object-fit: cover;
+        border-radius: 2px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+      }
+
+      // __opt-name — full language name
+      &__opt-name {
+        font-weight: 500;
+      }
+
+      // __opt-script — "Latin · LTR" descriptor
+      &__opt-script {
+        font-size: 0.62rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.45;
+        white-space: nowrap;
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

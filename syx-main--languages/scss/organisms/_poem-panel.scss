@@ -1,0 +1,71 @@
+// ORGANISM: POEM-PANEL
+// ================================================
+// Center column — full-height stage for the poem.
+// v3 additions:
+//   - --app-bg-deco-pattern: per-script background motif
+//     (defined in pages/_script-decorations.scss)
+//   - ::before: primary accent radial glow
+//   - ::after: secondary-color corner glow
+//   - Animation duration driven by --app-anim-duration
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin org-poem-panel($theme: null) {
+  @layer syx.organisms {
+
+    .org-poem-panel {
+      grid-area: poem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+
+      // Script-specific decorative background pattern
+      // (--app-bg-deco-pattern is overridden by [data-script] selectors)
+      background-image: var(--app-bg-deco-pattern, none);
+      background-size:  var(--app-bg-deco-size, auto);
+      background-repeat: repeat;
+      @include transition(background-image var(--app-anim-duration, 0.6s) ease);
+
+      // Primary radial accent glow
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 70% 60% at 50% 50%,
+          color-mix(in oklch, var(--app-accent) 8%, transparent),
+          transparent 70%
+        );
+        pointer-events: none;
+        @include transition(background var(--app-anim-duration, 0.6s) ease);
+      }
+
+      // Secondary-color corner bloom
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -12%;
+        right: -6%;
+        width: 50%;
+        height: 50%;
+        background: radial-gradient(
+          circle,
+          color-mix(in oklch, var(--app-secondary) 7%, transparent),
+          transparent 68%
+        );
+        pointer-events: none;
+        @include transition(background var(--app-anim-duration, 0.6s) ease);
+      }
+
+      .mol-poem-display {
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+  }
+  // end @layer syx.organisms
+}

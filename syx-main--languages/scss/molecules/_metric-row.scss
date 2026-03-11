@@ -1,0 +1,102 @@
+// MOLECULE: METRIC-ROW
+// ================================================
+// Single linguistic metric row: info icon + name + bar + number.
+// Rendered dynamically by the identity engine JS.
+// Elements: __info-btn, __label, __bar, __fill, __num
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-metric-row($theme: null) {
+  @layer syx.molecules {
+
+    .mol-metric-row {
+      display: grid;
+      grid-template-columns: 18px 1fr 2fr auto;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 4px;
+      padding: 0.1rem 0.25rem;
+      @include transition(background 0.2s ease);
+
+      &:hover {
+        background: color-mix(in oklch, var(--app-bg-3) 60%, transparent);
+      }
+
+      // __info-btn — metric icon that triggers the tooltip
+      &__info-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        border: none;
+        background: transparent;
+        color: var(--app-text-3);
+        font-size: 0.72rem;
+        cursor: help;
+        padding: 0;
+        border-radius: 50%;
+        line-height: 1;
+        flex-shrink: 0;
+        @include transition(color 0.2s ease, background 0.2s ease);
+
+        &:hover,
+        .mol-metric-row:hover & {
+          color: var(--app-accent);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--app-accent);
+          outline-offset: 2px;
+        }
+      }
+
+      // __label — metric name
+      &__label {
+        font-size: 0.67rem;
+        color: var(--app-text-3);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include transition(color 0.2s ease);
+
+        .mol-metric-row:hover & {
+          color: var(--app-text-2);
+        }
+      }
+
+      // __bar — track container
+      &__bar {
+        height: 3px;
+        background: var(--app-border-2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      // __fill — active fill (width set inline by JS)
+      &__fill {
+        height: 100%;
+        background: color-mix(in oklch, var(--app-accent) 60%, var(--app-text-3));
+        border-radius: 2px;
+        transform-origin: left;
+        @include transition(background 0.5s ease, width 0.6s cubic-bezier(0.25, 1, 0.5, 1));
+      }
+
+      // __num — numeric value
+      &__num {
+        font-size: 0.62rem;
+        font-variant-numeric: tabular-nums;
+        color: var(--app-text-3);
+        text-align: right;
+        min-width: 2.5ch;
+        @include transition(color 0.2s ease);
+
+        .mol-metric-row:hover & {
+          color: var(--app-text-2);
+        }
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

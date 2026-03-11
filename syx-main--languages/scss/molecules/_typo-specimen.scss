@@ -1,0 +1,57 @@
+// MOLECULE: TYPO-SPECIMEN
+// ================================================
+// Typography specimen card: large sample glyph +
+// font name + metric chips row.
+// Combines: atom-typo-chip (for metric tags).
+// Elements: __sample, __info, __font-name, __metrics
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-typo-specimen($theme: null) {
+  @layer syx.molecules {
+
+    .mol-typo-specimen {
+      padding: 1.25rem;
+      background: var(--app-bg-2);
+      border: 1px solid var(--app-border-2);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      @include transition(background 0.5s ease);
+
+      // __sample — large display glyph in the language's font
+      &__sample {
+        font-family: var(--lang-font-family);
+        font-size: 3.5rem;
+        line-height: 1;
+        color: var(--app-text);
+        letter-spacing: -0.02em;
+        @include transition(color 0.3s ease);
+      }
+
+      // __info — metadata block below the sample
+      &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      // __font-name — typeface name
+      &__font-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--app-text-2);
+      }
+
+      // __metrics — horizontal row of atom-typo-chip elements
+      &__metrics {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

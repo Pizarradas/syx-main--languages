@@ -1,0 +1,89 @@
+// ORGANISM: LANG-HEADER
+// ================================================
+// App header bar: brand identity + language selector
+// nav (atom-lang-pill) + script/direction badge.
+// An accent gradient stripe appears below the border,
+// transitioning with the active language palette.
+// Elements: __brand, __brand-dot, __brand-title,
+//           __nav, __script-badge
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin org-lang-header($theme: null) {
+  @layer syx.organisms {
+
+    .org-lang-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0 2rem;
+      height: 60px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--app-border);
+      background: var(--app-bg-2);
+      position: relative;
+      z-index: 10;
+
+      // Accent gradient stripe below border
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--app-accent), transparent 60%);
+        opacity: 0.7;
+        @include transition(background 0.6s ease);
+      }
+
+      // __brand — logo + name group
+      &__brand {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      // __brand-dot — accent color indicator
+      &__brand-dot {
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--app-accent);
+        flex-shrink: 0;
+        @include transition(background 0.6s ease);
+      }
+
+      // __brand-title — product name label
+      &__brand-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--app-text-2);
+      }
+
+      // __nav — row of atom-lang-pill elements
+      &__nav {
+        display: flex;
+        gap: 0.375rem;
+        flex: 1;
+      }
+
+      // __script-badge — "Latin · LTR" descriptor
+      &__script-badge {
+        margin-left: auto;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--app-text-3);
+        white-space: nowrap;
+        @include transition(color 0.4s ease);
+      }
+    }
+
+  }
+  // end @layer syx.organisms
+}

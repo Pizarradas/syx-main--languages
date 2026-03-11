@@ -1,0 +1,46 @@
+// MOLECULE: COLOR-SWATCH-ROW
+// ================================================
+// Color token row: swatch block + token name + OKLCH value.
+// Rendered dynamically by the identity engine JS.
+// Combines: atom-palette-swatch (--rect variant).
+// Elements: __block, __name, __value
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-color-swatch-row($theme: null) {
+  @layer syx.molecules {
+
+    .mol-color-swatch-row {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+
+      // __block — the color sample block (uses atom-palette-swatch--rect)
+      &__block {
+        width: 32px;
+        height: 22px;
+        border-radius: 4px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        // background set inline by JS
+      }
+
+      // __name — semantic token name
+      &__name {
+        font-size: 0.65rem;
+        color: var(--app-text-2);
+        font-weight: 600;
+        margin-right: auto;
+      }
+
+      // __value — OKLCH shorthand value
+      &__value {
+        font-size: 0.67rem;
+        color: var(--app-text-3);
+        font-variant-numeric: tabular-nums;
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}

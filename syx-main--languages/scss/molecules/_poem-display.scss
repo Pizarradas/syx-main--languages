@@ -1,0 +1,193 @@
+// MOLECULE: POEM-DISPLAY
+// ================================================
+// Literary text display: meta + poem lines + accent.
+// All typographic properties driven by --lang-* and
+// --app-* tokens set per language by the identity engine.
+// v3: font-style (italic for Romantic), text-shadow glow,
+//     text-align (CJK centered, RTL end), font-size scale.
+// Elements: __meta, __author, __title, __body, __line, __accent
+// ================================================
+@use '../abstracts/index' as *;
+
+@mixin mol-poem-display($theme: null) {
+  @layer syx.molecules {
+
+    .mol-poem-display {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      max-width: 520px;
+      width: 100%;
+
+      // __surface — card with palette hierarchy (bg2/bg3, accent bar)
+      // Proportions reflect token weights: accent bar ≈ 8%, surfaces ≈ 32%
+      &__surface {
+        position: relative;
+        padding: 2rem 2rem 2rem calc(2rem + var(--palette-w-accent, 8) * 0.5px);
+        background: linear-gradient(
+          165deg,
+          var(--app-bg-2) 0%,
+          color-mix(in oklch, var(--app-bg-2) 85%, var(--app-bg-3)) 50%,
+          var(--app-bg-3) 100%
+        );
+        border: 1px solid color-mix(in oklch, var(--app-border) 60%, transparent);
+        border-radius: var(--lang-radius, 0.75rem);
+        box-shadow:
+          0 4px var(--app-shadow-blur, 20px) oklch(0 0 0 / 0.2),
+          inset 0 1px 0 color-mix(in oklch, var(--app-text) 6%, transparent);
+        @include transition(
+          background var(--app-anim-duration, 0.5s) ease,
+          border-color var(--app-anim-duration, 0.5s) ease,
+          box-shadow var(--app-anim-duration, 0.5s) ease
+        );
+      }
+
+      // __accent-bar — vertical stripe (accent weight ≈ 8%)
+      &__accent-bar {
+        position: absolute;
+        top: 1.25rem;
+        bottom: 1.25rem;
+        left: 0;
+        width: calc(var(--palette-w-accent, 8) * 0.6px);
+        min-width: 4px;
+        max-width: 6px;
+        background: linear-gradient(
+          to bottom,
+          var(--app-accent),
+          color-mix(in oklch, var(--app-accent) 70%, var(--app-secondary))
+        );
+        border-radius: 0 3px 3px 0;
+        opacity: 0.9;
+        @include transition(background var(--app-anim-duration, 0.5s) ease);
+      }
+
+      // __content — inner spacing
+      &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+      }
+
+      // __meta — author cite + poem title
+      &__meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        align-items: var(--app-poem-align-items, flex-start);
+      }
+
+      // __author — eyebrow label (script language accent)
+      &__author {
+        font-style: normal;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.10em;
+        text-transform: uppercase;
+        color: var(--app-accent);
+        text-align: var(--app-poem-text-align, start);
+        @include transition(color var(--app-anim-duration, 0.5s) ease);
+      }
+
+      // __title — poem title (secondary: hierarchy weight ≈ 6%)
+      &__title {
+        font-family: var(--primitive-font-family-syne-bold, 'Syne', sans-serif);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--app-secondary);
+        margin: 0;
+        letter-spacing: -0.01em;
+        text-align: var(--app-poem-text-align, start);
+        @include transition(color var(--app-anim-duration, 0.5s) ease);
+      }
+
+      // __body — container for all poem lines
+      // gap + justify: wordOrderRigidity → rígido = más separación, space-between
+      &__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--app-poem-line-gap, 0.5em);
+        justify-content: var(--app-poem-layout-justify, flex-start);
+        align-items: var(--app-poem-align-items, flex-start);
+        width: 100%;
+        @include transition(gap var(--app-anim-duration, 0.5s) ease);
+      }
+
+      // __line — single verse line
+      // All typographic tokens set by the identity engine at runtime.
+      // Initial state: opacity 0 (GSAP animates entrance).
+      &__line {
+        font-family:            var(--lang-font-family);
+        font-size:              calc(clamp(1.35rem, 1.8vw + 0.55rem, 2.1rem) * var(--app-poem-scale, 1) * var(--lang-font-size, 1));
+        font-weight:            var(--lang-font-weight, 400);
+        font-style:             var(--lang-font-style, normal);
+        line-height:            var(--lang-line-height);
+        letter-spacing:         var(--lang-letter-spacing);
+        word-spacing:           var(--lang-word-spacing, 0em);
+        font-feature-settings:  var(--lang-font-feature-settings, '"kern" 1, "liga" 1');
+        text-align:             var(--app-poem-text-align, start);
+        text-shadow:            var(--lang-text-shadow, none);
+        text-rendering:         optimizeLegibility;
+        color:                  var(--app-text);
+        width:                  100%;
+        opacity:                0;
+        transform:              translateY(8px);
+        @include transition(
+          color        var(--app-anim-duration, 0.5s) ease,
+          font-weight  var(--app-anim-duration, 0.5s) ease,
+          text-shadow  var(--app-anim-duration, 0.5s) ease,
+          word-spacing var(--app-anim-duration, 0.5s) ease
+        );
+      }
+
+      // __line-accent — first word/char in accent (palette hierarchy)
+      &__line-accent {
+        color: var(--app-accent);
+        @include transition(color var(--app-anim-duration, 0.5s) ease);
+      }
+
+      // __accent — decorative accent line (accent → secondary gradient)
+      &__accent {
+        width: 4rem;
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          var(--app-accent),
+          color-mix(in oklch, var(--app-accent) 50%, var(--app-secondary))
+        );
+        border-radius: 1px;
+        box-shadow: var(--app-accent-glow, none);
+        @include transition(
+          background  var(--app-anim-duration, 0.5s) ease,
+          box-shadow  var(--app-anim-duration, 0.5s) ease,
+          width       0.6s ease
+        );
+      }
+
+      // RTL layout
+      [dir='rtl'] & {
+        &__meta,
+        &__body {
+          align-items: flex-end;
+        }
+        &__accent {
+          margin-left: auto;
+        }
+        &__surface {
+          padding: 2rem calc(2rem + var(--palette-w-accent, 8) * 0.5px) 2rem 2rem;
+        }
+        &__accent-bar {
+          left: auto;
+          right: 0;
+          border-radius: 3px 0 0 3px;
+          background: linear-gradient(
+            to bottom,
+            color-mix(in oklch, var(--app-accent) 70%, var(--app-secondary)),
+            var(--app-accent)
+          );
+        }
+      }
+    }
+
+  }
+  // end @layer syx.molecules
+}
