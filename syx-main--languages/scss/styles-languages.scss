@@ -1,0 +1,160 @@
+// ================================================
+// LANGUAGE IDENTITY ENGINE — Entry Point
+// ================================================
+// Compiles to: css/styles-languages.css
+//
+// Architecture mirrors setup-builder.scss.
+// App palette tokens (--app-*, --lang-*) are the
+// initial state (Español, hue 18°). The Language
+// Identity Engine JS overrides them at runtime.
+// ================================================
+
+// CORE
+@use 'abstracts/index' as *;
+@use 'base/index' as *;
+@use 'themes/_base/universal' as *;
+
+// ATOMIC COMPONENTS
+@use 'atoms/index' as *;
+@use 'molecules/index' as *;
+@use 'organisms/index' as *;
+
+// PAGE LAYOUT
+@use 'pages/language-app';
+
+// SCRIPT DECORATIONS — per-script background patterns (data-script attribute)
+@use 'pages/script-decorations';
+
+// ================================================
+// LAYER ORDER + UNIVERSAL VALUES
+// ================================================
+@include universal-values();
+
+// ================================================
+// APP TOKENS — initial state: Español (hue 18°)
+// ================================================
+:root {
+  // App palette tokens — overridden at runtime by the identity engine JS
+  --app-bg:         oklch(0.088 0.038 18);
+  --app-bg-2:       oklch(0.118 0.044 18);
+  --app-bg-3:       oklch(0.155 0.050 18);
+  --app-accent:     oklch(0.630 0.168 18);
+  --app-accent-dim: oklch(0.480 0.120 18);
+  --app-text:       oklch(0.950 0.015 18);
+  --app-text-2:     oklch(0.680 0.040 18);
+  --app-text-3:     oklch(0.450 0.025 18);
+  --app-border:     oklch(0.220 0.048 18);
+  --app-border-2:   oklch(0.160 0.032 18);
+
+  // Lang typography tokens — overridden at runtime by the identity engine JS
+  --lang-font-family:    Georgia, 'Times New Roman', serif;
+  --lang-letter-spacing: 0em;
+  --lang-line-height:    1.75;
+  --lang-radius:         0.75rem;
+  --lang-font-weight:    400;
+
+  // App motion, space & depth tokens — overridden at runtime
+  --app-anim-duration:  0.55s;
+  --app-gap-scale:      1;
+  --app-shadow-blur:    18px;
+  --app-border-width:   1px;
+  --app-secondary:      oklch(0.580 0.120 168);
+  --app-tertiary:        oklch(0.520 0.100 288);
+
+  // v3 Poem style tokens — overridden at runtime by identity engine
+  --lang-font-style:              normal;
+  --lang-text-shadow:             none;
+  --lang-word-spacing:            0em;
+  --lang-font-feature-settings:   "kern" 1, "liga" 1;
+  --app-accent-glow:              none;
+  --app-backdrop-blur:            0px;
+  --app-noise-opacity:            0.025;
+  --app-poem-text-align:          start;
+  --app-poem-align-items:         flex-start;
+  --app-poem-scale:               1;
+
+  // SYX semantic token bridge — dark language theme
+  --semantic-color-bg-primary:      var(--app-bg);
+  --semantic-color-bg-secondary:    var(--app-bg-2);
+  --semantic-color-bg-tertiary:     var(--app-bg-3);
+  --semantic-color-primary:         var(--app-accent);
+  --semantic-color-secondary:       var(--app-accent-dim);
+  --semantic-color-text-primary:    var(--app-text);
+  --semantic-color-text-secondary:  var(--app-text-2);
+  --semantic-color-text-tertiary:   var(--app-text-3);
+  --semantic-color-border-default:  var(--app-border);
+  --semantic-color-border-subtle:   var(--app-border-2);
+  --semantic-border-radius-default: var(--lang-radius);
+  --reset-body-background-color:    var(--app-bg);
+  --reset-body-color:               var(--app-text);
+}
+
+// ================================================
+// FONT DECLARATIONS
+// ================================================
+
+// Syne — headings + brand title
+@include font-family(
+  'Google-Syne--medium',
+  '#{$fonts-path}/google-syne/Syne-Regular',
+  500, normal, eot woff2 woff ttf svg
+);
+@include font-family(
+  'Google-Syne--bold',
+  '#{$fonts-path}/google-syne/Syne-Bold',
+  800, normal, eot woff2 woff ttf svg
+);
+
+// Space Grotesk — UI text + Finnish poem typography
+@include font-family(
+  'Google-Space-Grotesk--regular',
+  '#{$fonts-path}/google-space-grotesk/SpaceGrotesk-Regular',
+  400, normal, eot woff2 woff ttf svg
+);
+@include font-family(
+  'Google-Space-Grotesk--bold',
+  '#{$fonts-path}/google-space-grotesk/SpaceGrotesk-Bold',
+  700, normal, eot woff2 woff ttf svg
+);
+
+// ================================================
+// RESET + BASE ELEMENTS
+// ================================================
+@include resets-global(example-01);
+@include elements-base(example-01);
+
+// ================================================
+// HELPERS
+// ================================================
+@include helper-icons();
+@include helper-fonts(example-01);
+
+// ================================================
+// ATOMS
+// ================================================
+@include atom-macro-bar();
+@include atom-palette-swatch();
+@include atom-typo-chip();
+@include atom-section-label();
+@include atom-tooltip();
+@include atom-palette-info-btn();
+
+// ================================================
+// MOLECULES
+// ================================================
+@include mol-lang-selector();
+@include mol-macro-item();
+@include mol-metric-row();
+@include mol-metrics-chart();
+@include mol-color-swatch-row();
+@include mol-identity-num();
+@include mol-typo-specimen();
+@include mol-poem-display();
+
+// ================================================
+// ORGANISMS
+// ================================================
+@include org-lang-header();
+@include org-identity-panel();
+@include org-poem-panel();
+@include org-theme-panel();
