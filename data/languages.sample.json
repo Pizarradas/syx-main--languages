@@ -1,0 +1,13 @@
+[
+  {
+    "id": "es",
+    "name": "Español",
+    "script": "Latin",
+    "direction": "ltr",
+    "metrics": {
+      "vowelConsonantRatio": 0.64,
+      "phoneticSoftness": 0.68,
+      "avgWordLength": 0.48
+    }
+  }
+]
