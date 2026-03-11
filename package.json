@@ -1,0 +1,23 @@
+{
+  "name": "language-identity-engine",
+  "version": "1.0.0",
+  "description": "Genera identidades visuales dinámicas a partir de métricas lingüísticas.",
+  "private": true,
+  "scripts": {
+    "build:css": "sass syx-main--languages/scss/styles-languages.scss syx-main--languages/css/styles-languages.css --style=expanded --no-source-map",
+    "build:css:watch": "sass --watch syx-main--languages/scss/styles-languages.scss:syx-main--languages/css/styles-languages.css --style=expanded --no-source-map",
+    "serve": "npx serve .",
+    "start": "npm run serve"
+  },
+  "keywords": [
+    "linguistics",
+    "design-system",
+    "visual-identity",
+    "oklch"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.77.0",
+    "serve": "^14.2.0"
+  }
+}

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-language="es" data-syx-theme="example-01">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Identity Engine — SYX</title>
+  <meta name="description" content="Un idioma no solo se lee. También se ve. Language Identity Engine genera identidades visuales dinámicas a partir de métricas lingüísticas.">
+
+  <link rel="preload" href="syx-main--languages/css/styles-languages.css" as="style">
+  <link rel="stylesheet" href="syx-main--languages/css/styles-languages.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;1,400&family=Noto+Naskh+Arabic:wght@400;500&family=Noto+Serif+Armenian:wght@400;700&family=Noto+Serif+Devanagari:wght@400;700&family=Noto+Serif+Georgian:wght@400;700&family=Noto+Serif+JP:wght@300;400&family=Noto+Serif+KR:wght@300;400&family=Noto+Serif+SC:wght@300;400&family=Noto+Serif+Tamil:wght@400;700&family=Noto+Serif+Thai:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="syx lang-app">
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════ -->
+  <header class="org-lang-header" role="banner">
+    <div class="org-lang-header__brand">
+      <span class="org-lang-header__brand-dot" aria-hidden="true"></span>
+      <span class="org-lang-header__brand-title">Language Identity Engine</span>
+    </div>
+
+    <div class="org-lang-header__view-tabs" role="tablist" aria-label="Modo de vista">
+      <button class="mol-view-tab mol-view-tab--active" data-view="single" role="tab" aria-selected="true">Explorar</button>
+      <button class="mol-view-tab" data-view="compare" role="tab" aria-selected="false">Comparar</button>
+      <button class="mol-view-tab" data-view="analytics" role="tab" aria-selected="false">Análisis</button>
+    </div>
+
+    <div class="org-lang-header__export" role="group" aria-label="Exportar tokens">
+      <button class="atom-export-btn" id="export-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Exportar tokens del idioma actual">
+        Exportar
+      </button>
+      <ul class="atom-export-menu" id="export-menu" role="menu" aria-hidden="true">
+        <li role="none"><button role="menuitem" data-format="css" type="button">Exportar CSS</button></li>
+        <li role="none"><button role="menuitem" data-format="json" type="button">Exportar JSON</button></li>
+        <li class="atom-export-menu__divider" id="export-compare-divider" role="separator" hidden></li>
+        <li role="none" class="atom-export-menu__compare-item" id="export-css-a" hidden><button role="menuitem" data-format="css-a" type="button">A — CSS</button></li>
+        <li role="none" class="atom-export-menu__compare-item" id="export-json-a" hidden><button role="menuitem" data-format="json-a" type="button">A — JSON</button></li>
+        <li role="none" class="atom-export-menu__compare-item" id="export-css-b" hidden><button role="menuitem" data-format="css-b" type="button">B — CSS</button></li>
+        <li role="none" class="atom-export-menu__compare-item" id="export-json-b" hidden><button role="menuitem" data-format="json-b" type="button">B — JSON</button></li>
+      </ul>
+    </div>
+
+    <nav class="org-lang-header__nav" role="navigation" aria-label="Select language">
+      <div class="mol-lang-selector" id="lang-selector">
+
+        <button class="mol-lang-selector__trigger"
+                id="lang-selector-trigger"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-label="Language: Español">
+          <img class="mol-lang-selector__trigger-flag" id="selector-flag"
+               src="syx-main--languages/img/flags/es.svg" alt="" width="24" height="18" fetchpriority="high" aria-hidden="true">
+          <span class="mol-lang-selector__code" id="selector-code">ES</span>
+          <span class="mol-lang-selector__name" id="selector-name">Español</span>
+          <svg class="mol-lang-selector__chevron" aria-hidden="true" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <ul class="mol-lang-selector__panel" id="lang-selector-panel" role="listbox" aria-label="Select language">
+          <li class="mol-lang-selector__option mol-lang-selector__option--active" data-lang="es" role="option" aria-selected="true" tabindex="0">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/es.svg" alt="Spain" width="24" height="18" loading="eager">
+            <span class="mol-lang-selector__opt-name">Español</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="en" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/gb.svg" alt="UK">
+            <span class="mol-lang-selector__opt-name">English</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ja" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/jp.svg" alt="Japan">
+            <span class="mol-lang-selector__opt-name">日本語</span>
+            <span class="mol-lang-selector__opt-script">CJK · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ar" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/sa.svg" alt="Saudi Arabia">
+            <span class="mol-lang-selector__opt-name">العربية</span>
+            <span class="mol-lang-selector__opt-script">Arabic · RTL</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="fi" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/fi.svg" alt="Finland">
+            <span class="mol-lang-selector__opt-name">Suomi</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="zh" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/cn.svg" alt="China">
+            <span class="mol-lang-selector__opt-name">中文</span>
+            <span class="mol-lang-selector__opt-script">CJK · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ko" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/kr.svg" alt="Korea">
+            <span class="mol-lang-selector__opt-name">한국어</span>
+            <span class="mol-lang-selector__opt-script">Hangul · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="hi" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/in.svg" alt="India">
+            <span class="mol-lang-selector__opt-name">हिन्दी</span>
+            <span class="mol-lang-selector__opt-script">Devanagari · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="de" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/de.svg" alt="Germany">
+            <span class="mol-lang-selector__opt-name">Deutsch</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="fr" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/fr.svg" alt="France">
+            <span class="mol-lang-selector__opt-name">Français</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="pt" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/pt.svg" alt="Portugal">
+            <span class="mol-lang-selector__opt-name">Português</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ru" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ru.svg" alt="Russia">
+            <span class="mol-lang-selector__opt-name">Русский</span>
+            <span class="mol-lang-selector__opt-script">Cyrillic · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="it" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/it.svg" alt="Italy">
+            <span class="mol-lang-selector__opt-name">Italiano</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="el" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/gr.svg" alt="Greece">
+            <span class="mol-lang-selector__opt-name">Ελληνικά</span>
+            <span class="mol-lang-selector__opt-script">Greek · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="tr" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/tr.svg" alt="Turkey">
+            <span class="mol-lang-selector__opt-name">Türkçe</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="he" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/il.svg" alt="Israel">
+            <span class="mol-lang-selector__opt-name">עברית</span>
+            <span class="mol-lang-selector__opt-script">Hebrew · RTL</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="th" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/th.svg" alt="Thailand">
+            <span class="mol-lang-selector__opt-name">ภาษาไทย</span>
+            <span class="mol-lang-selector__opt-script">Thai · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="vi" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/vn.svg" alt="Vietnam">
+            <span class="mol-lang-selector__opt-name">Tiếng Việt</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="id" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/id.svg" alt="Indonesia">
+            <span class="mol-lang-selector__opt-name">Bahasa Indonesia</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="sw" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ke.svg" alt="Kenya">
+            <span class="mol-lang-selector__opt-name">Kiswahili</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="pl" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/pl.svg" alt="Poland">
+            <span class="mol-lang-selector__opt-name">Polski</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="nl" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/nl.svg" alt="Netherlands">
+            <span class="mol-lang-selector__opt-name">Nederlands</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="sv" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/se.svg" alt="Sweden">
+            <span class="mol-lang-selector__opt-name">Svenska</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="hu" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/hu.svg" alt="Hungary">
+            <span class="mol-lang-selector__opt-name">Magyar</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="fa" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ir.svg" alt="Iran">
+            <span class="mol-lang-selector__opt-name">فارسی</span>
+            <span class="mol-lang-selector__opt-script">Arabic · RTL</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ka" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ge.svg" alt="Georgia">
+            <span class="mol-lang-selector__opt-name">ქართული</span>
+            <span class="mol-lang-selector__opt-script">Georgian · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ta" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/in.svg" alt="India">
+            <span class="mol-lang-selector__opt-name">தமிழ்</span>
+            <span class="mol-lang-selector__opt-script">Tamil · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="cy" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/gb.svg" alt="Wales">
+            <span class="mol-lang-selector__opt-name">Cymraeg</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="eu" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/pv.svg" alt="País Vasco">
+            <span class="mol-lang-selector__opt-name">Euskara</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="mi" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/nz.svg" alt="New Zealand">
+            <span class="mol-lang-selector__opt-name">Te Reo Māori</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="tl" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ph.svg" alt="Philippines">
+            <span class="mol-lang-selector__opt-name">Tagalog</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="is" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/is.svg" alt="Iceland">
+            <span class="mol-lang-selector__opt-name">Íslenska</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="ga" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ie.svg" alt="Ireland">
+            <span class="mol-lang-selector__opt-name">Gaeilge</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="hy" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/am.svg" alt="Armenia">
+            <span class="mol-lang-selector__opt-name">Հայերեն</span>
+            <span class="mol-lang-selector__opt-script">Armenian · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="lt" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/lt.svg" alt="Lithuania">
+            <span class="mol-lang-selector__opt-name">Lietuvių</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="mt" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/mt.svg" alt="Malta">
+            <span class="mol-lang-selector__opt-name">Malti</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+          <li class="mol-lang-selector__option" data-lang="et" role="option" aria-selected="false" tabindex="-1">
+            <img class="mol-lang-selector__opt-flag" src="syx-main--languages/img/flags/ee.svg" alt="Estonia">
+            <span class="mol-lang-selector__opt-name">Eesti</span>
+            <span class="mol-lang-selector__opt-script">Latin · LTR</span>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+
+    <span class="org-lang-header__script-badge" id="script-badge" aria-live="polite">Latin · LTR</span>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CANVAS
+       ═══════════════════════════════════════════ -->
+  <main class="app-canvas" id="app-canvas" role="main">
+
+    <!-- ─── COL 1: Language identity + metrics ─── -->
+    <aside class="org-identity-panel" aria-label="Language identity and metrics">
+
+      <h1 class="org-identity-panel__lang-name" id="lang-name">Español</h1>
+      <div class="org-identity-panel__script-info" id="lang-script-info">
+        <span class="org-identity-panel__script-dir" id="dir-badge">LTR</span>
+        <span id="script-name">Latin Script</span>
+      </div>
+
+      <!-- Macro-indicators (softness + density) -->
+      <div class="org-identity-panel__macro-group">
+        <span class="atom-section-label">Macro Indicators</span>
+
+        <div class="mol-macro-item" id="macro-softness">
+          <div class="mol-macro-item__header">
+            <span class="mol-macro-item__label">Softness</span>
+            <span class="mol-macro-item__value" id="val-softness">0.65</span>
+          </div>
+          <div class="atom-macro-bar">
+            <div class="atom-macro-bar__fill" id="fill-softness" style="width: 65%"></div>
+          </div>
+        </div>
+
+        <div class="mol-macro-item" id="macro-density">
+          <div class="mol-macro-item__header">
+            <span class="mol-macro-item__label">Density</span>
+            <span class="mol-macro-item__value" id="val-density">0.48</span>
+          </div>
+          <div class="atom-macro-bar">
+            <div class="atom-macro-bar__fill" id="fill-density" style="width: 48%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar chart — linguistic profile visualisation -->
+      <section class="org-identity-panel__chart-section" aria-label="Linguistic profile radar">
+        <div class="mol-metrics-chart">
+          <div class="mol-metrics-chart__canvas-wrap">
+            <canvas id="metrics-radar" role="img" aria-label="Radar chart of 12 linguistic metrics"></canvas>
+          </div>
+          <span class="mol-metrics-chart__label">Linguistic Profile</span>
+          <span class="mol-metrics-chart__subtitle">Hover a metric row to explore each dimension</span>
+        </div>
+      </section>
+
+      <!-- Individual metrics -->
+      <div class="org-identity-panel__metrics-group">
+        <span class="atom-section-label">Linguistic Metrics</span>
+        <div id="metrics-list">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Palette strip -->
+      <div class="org-identity-panel__palette-section">
+        <div class="org-identity-panel__palette-header">
+          <span class="atom-section-label">Generated Palette</span>
+          <button class="atom-palette-info-btn" id="palette-info-btn" aria-label="Explicación de la paleta y su jerarquía" type="button" title="Más info">◇</button>
+        </div>
+        <div class="org-identity-panel__palette-strip" id="palette-strip">
+          <!-- Injected by JS -->
+        </div>
+        <div class="org-identity-panel__palette-hierarchy" id="palette-hierarchy" aria-label="Proporción jerárquica de tokens de color">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ─── COL 2: Poem stage ─── -->
+    <section class="org-poem-panel" aria-label="Poem">
+      <div class="mol-poem-display" id="poem-stage">
+        <!-- Surface: bg2/bg3 card with hierarchy-inspired proportions -->
+        <div class="mol-poem-display__surface">
+          <div class="mol-poem-display__accent-bar" aria-hidden="true"></div>
+          <div class="mol-poem-display__content">
+            <div class="mol-poem-display__meta">
+              <cite class="mol-poem-display__author" id="poem-author">Gustavo Adolfo Bécquer</cite>
+              <p class="mol-poem-display__title" id="poem-title">Rima XXIII</p>
+            </div>
+
+            <div class="mol-poem-display__body" id="poem-body" role="text" aria-live="polite" aria-atomic="true">
+              <!-- Lines injected by JS -->
+            </div>
+
+            <div class="mol-poem-display__accent" id="poem-accent-line"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── COL 3: Theme preview ─── -->
+    <aside class="org-theme-panel" aria-label="Generated theme">
+
+      <!-- Identity numbers -->
+      <div>
+        <span class="atom-section-label">Identity Profile</span>
+        <div class="org-theme-panel__identity-nums">
+          <div class="mol-identity-num">
+            <span class="mol-identity-num__label">λ</span>
+            <span class="mol-identity-num__value" id="num-wavelength">520 nm</span>
+          </div>
+          <div class="mol-identity-num">
+            <span class="mol-identity-num__label">Hue</span>
+            <span class="mol-identity-num__value" id="num-hue">18°</span>
+          </div>
+          <div class="mol-identity-num">
+            <span class="mol-identity-num__label">Chroma</span>
+            <span class="mol-identity-num__value" id="num-chroma">0.17</span>
+          </div>
+          <div class="mol-identity-num">
+            <span class="mol-identity-num__label">Softness</span>
+            <span class="mol-identity-num__value" id="num-softness">0.65</span>
+          </div>
+          <div class="mol-identity-num">
+            <span class="mol-identity-num__label">Density</span>
+            <span class="mol-identity-num__value" id="num-density">0.48</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color tokens -->
+      <div>
+        <span class="atom-section-label">Color Tokens</span>
+        <div class="org-theme-panel__swatches-list" id="color-swatches">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Typography specimen -->
+      <div>
+        <span class="atom-section-label">Typography</span>
+        <div class="mol-typo-specimen">
+          <div class="mol-typo-specimen__sample" id="typo-sample">Aa</div>
+          <div class="mol-typo-specimen__info">
+            <div class="mol-typo-specimen__font-name" id="typo-font-name">Lora</div>
+            <div class="mol-typo-specimen__metrics">
+              <span class="atom-typo-chip" id="typo-ls">LS: 0</span>
+              <span class="atom-typo-chip" id="typo-lh">LH: 1.75</span>
+              <span class="atom-typo-chip" id="typo-radius">R: 0.75rem</span>
+              <span class="atom-typo-chip" id="typo-extra-params">W: 400</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline explainer -->
+      <div>
+        <span class="atom-section-label">Visual Pipeline</span>
+        <p class="org-theme-panel__pipeline">
+          <strong>linguistic metrics</strong><br>
+          → macro-indicators (softness · density)<br>
+          → fingerprint → λ (380–700 nm)<br>
+          → hue · chroma · lightness (OKLCH)<br>
+          → secondary (hue +150°) · tertiary (+120°)<br>
+          → <strong>SYX theme applied</strong>
+        </p>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       COMPARE VIEW (hidden by default)
+       ═══════════════════════════════════════════ -->
+  <section class="app-compare-view" id="compare-view" aria-hidden="true" hidden>
+    <div class="app-compare-view__panels">
+      <div class="mol-compare-panel" id="compare-panel-a" data-slot="a">
+        <div class="mol-compare-panel__header">
+          <img class="mol-compare-panel__flag" src="syx-main--languages/img/flags/es.svg" alt="">
+          <div class="mol-compare-panel__meta">
+            <h2 class="mol-compare-panel__name">Español</h2>
+            <span class="mol-compare-panel__script">Latin · LTR</span>
+          </div>
+          <select class="mol-compare-panel__select" id="compare-select-a" aria-label="Idioma A">
+            <option value="es">Español</option>
+          </select>
+        </div>
+        <div class="mol-compare-panel__macro">
+          <div class="mol-compare-panel__macro-item">
+            <span>Softness</span>
+            <span class="mol-compare-panel__softness-val">0.65</span>
+            <div class="atom-macro-bar"><div class="atom-macro-bar__fill mol-compare-panel__softness-fill" style="width:65%"></div></div>
+          </div>
+          <div class="mol-compare-panel__macro-item">
+            <span>Density</span>
+            <span class="mol-compare-panel__density-val">0.48</span>
+            <div class="atom-macro-bar"><div class="atom-macro-bar__fill mol-compare-panel__density-fill" style="width:48%"></div></div>
+          </div>
+        </div>
+        <div class="mol-compare-panel__identity">
+          <span class="mol-compare-panel__hue">148°</span>
+          <span class="mol-compare-panel__chroma">0.18</span>
+        </div>
+        <div class="mol-compare-panel__poem" role="text">
+          <!-- Injected -->
+        </div>
+        <div class="mol-compare-panel__palette" role="img" aria-label="Paleta">
+          <!-- Injected -->
+        </div>
+        <div class="mol-compare-panel__typo">
+          <div class="mol-compare-panel__typo-sample" aria-hidden="true">Aa</div>
+          <span class="mol-compare-panel__typo-name">Lora</span>
+        </div>
+      </div>
+      <div class="mol-compare-panel" id="compare-panel-b" data-slot="b">
+        <div class="mol-compare-panel__header">
+          <img class="mol-compare-panel__flag" src="syx-main--languages/img/flags/gb.svg" alt="">
+          <div class="mol-compare-panel__meta">
+            <h2 class="mol-compare-panel__name">English</h2>
+            <span class="mol-compare-panel__script">Latin · LTR</span>
+          </div>
+          <select class="mol-compare-panel__select" id="compare-select-b" aria-label="Idioma B">
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="mol-compare-panel__macro">
+          <div class="mol-compare-panel__macro-item">
+            <span>Softness</span>
+            <span class="mol-compare-panel__softness-val">0.42</span>
+            <div class="atom-macro-bar"><div class="atom-macro-bar__fill mol-compare-panel__softness-fill" style="width:42%"></div></div>
+          </div>
+          <div class="mol-compare-panel__macro-item">
+            <span>Density</span>
+            <span class="mol-compare-panel__density-val">0.38</span>
+            <div class="atom-macro-bar"><div class="atom-macro-bar__fill mol-compare-panel__density-fill" style="width:38%"></div></div>
+          </div>
+        </div>
+        <div class="mol-compare-panel__identity">
+          <span class="mol-compare-panel__hue">210°</span>
+          <span class="mol-compare-panel__chroma">0.14</span>
+        </div>
+        <div class="mol-compare-panel__poem" role="text">
+          <!-- Injected -->
+        </div>
+        <div class="mol-compare-panel__palette" role="img" aria-label="Paleta">
+          <!-- Injected -->
+        </div>
+        <div class="mol-compare-panel__typo">
+          <div class="mol-compare-panel__typo-sample" aria-hidden="true">Aa</div>
+          <span class="mol-compare-panel__typo-name">Merriweather</span>
+        </div>
+      </div>
+    </div>
+    <div class="app-compare-view__radar">
+      <div class="mol-compare-radar">
+        <h3 class="mol-compare-radar__title">Métricas superpuestas</h3>
+        <p class="mol-compare-radar__desc">Comparación de las 12 métricas lingüísticas entre ambos idiomas</p>
+        <div class="mol-compare-radar__chart">
+          <canvas id="compare-radar"></canvas>
+        </div>
+        <div class="mol-compare-radar__legend">
+          <span class="mol-compare-radar__legend-a" id="compare-legend-a">A — Español</span>
+          <span class="mol-compare-radar__legend-b" id="compare-legend-b">B — English</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ANALYTICS VIEW (hidden by default)
+       ═══════════════════════════════════════════ -->
+  <section class="app-analytics-view" id="analytics-view" aria-hidden="true" hidden>
+    <div class="app-analytics-view__grid">
+      <div class="mol-analytics-card">
+        <h3 class="mol-analytics-card__title">Temperatura cromática</h3>
+        <p class="mol-analytics-card__desc">Distribución de idiomas: cálidos (0–60°), neutros (60–200°), fríos (200–360°)</p>
+        <div class="mol-analytics-card__chart">
+          <canvas id="analytics-chart-temp"></canvas>
+        </div>
+      </div>
+      <div class="mol-analytics-card">
+        <h3 class="mol-analytics-card__title">Familias tipográficas</h3>
+        <p class="mol-analytics-card__desc">Cuántos idiomas usan cada fuente</p>
+        <div class="mol-analytics-card__chart">
+          <canvas id="analytics-chart-typo"></canvas>
+        </div>
+      </div>
+      <div class="mol-analytics-card">
+        <h3 class="mol-analytics-card__title">Sistemas de escritura</h3>
+        <p class="mol-analytics-card__desc">Distribución por script</p>
+        <div class="mol-analytics-card__chart">
+          <canvas id="analytics-chart-script"></canvas>
+        </div>
+      </div>
+      <div class="mol-analytics-card mol-analytics-card--wide">
+        <h3 class="mol-analytics-card__title">Hue por idioma</h3>
+        <p class="mol-analytics-card__desc">Matiz asignado a cada idioma (ordenado por temperatura)</p>
+        <div class="mol-analytics-card__chart mol-analytics-card__chart--tall">
+          <canvas id="analytics-chart-hue"></canvas>
+        </div>
+      </div>
+      <div class="mol-analytics-card mol-analytics-card--wide">
+        <h3 class="mol-analytics-card__title">Perfil de jerarquía</h3>
+        <p class="mol-analytics-card__desc">Proporción adaptativa: fondos vs acentos vs complementarios (softness/density)</p>
+        <div class="mol-analytics-card__chart mol-analytics-card__chart--tall">
+          <canvas id="analytics-chart-hierarchy"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rich metric tooltip (positioned by JS) -->
+  <div class="atom-tooltip" id="metrics-tooltip" role="tooltip" aria-hidden="true">
+    <div class="atom-tooltip__header">
+      <span class="atom-tooltip__icon" id="tt-icon">◎</span>
+      <span class="atom-tooltip__title" id="tt-title">Metric</span>
+    </div>
+    <p class="atom-tooltip__desc" id="tt-desc"></p>
+    <span class="atom-tooltip__visual-tag" id="tt-visual"></span>
+    <div class="atom-tooltip__scale">
+      <div class="atom-tooltip__scale-track">
+        <div class="atom-tooltip__scale-fill" id="tt-fill"></div>
+        <div class="atom-tooltip__scale-marker" id="tt-marker"></div>
+      </div>
+      <span class="atom-tooltip__scale-value" id="tt-value">0.00</span>
+    </div>
+    <div class="atom-tooltip__extremes">
+      <div class="atom-tooltip__extreme atom-tooltip__extreme--low">
+        <span class="atom-tooltip__extreme-label">Low</span>
+        <span class="atom-tooltip__extreme-val" id="tt-low"></span>
+      </div>
+      <div class="atom-tooltip__extreme atom-tooltip__extreme--high">
+        <span class="atom-tooltip__extreme-label">High</span>
+        <span class="atom-tooltip__extreme-val" id="tt-high"></span>
+      </div>
+    </div>
+    <p class="atom-tooltip__source" id="tt-source"></p>
+  </div>
+
+  <!-- Palette hierarchy tooltip -->
+  <div class="atom-tooltip atom-tooltip--palette" id="palette-tooltip" role="tooltip" aria-hidden="true">
+    <div class="atom-tooltip__header">
+      <span class="atom-tooltip__icon" aria-hidden="true">◇</span>
+      <span class="atom-tooltip__title">Paleta de identidad</span>
+    </div>
+    <p class="atom-tooltip__desc" id="palette-tt-desc">
+      Jerarquía de tokens de color generados por el motor de identidad. Cada nivel tiene un rol en la toma de decisión visual del idioma.
+    </p>
+    <ol class="atom-tooltip__hierarchy" id="palette-tt-hierarchy">
+      <li><strong>bg · bg2 · bg3 · bg4</strong> — Fondos y superficies elevadas. Proporciones adaptativas.</li>
+      <li><strong>bdr</strong> — Bordes. Chroma derivado de softness.</li>
+      <li><strong>acc~ · acc− · acc</strong> — Acentos (sutil, atenuado, principal). Más peso si softness alto.</li>
+      <li><strong>sec · ter</strong> — Complementarios (hue +150°, +120°).</li>
+      <li><strong>txt</strong> — Texto principal.</li>
+    </ol>
+    <p class="atom-tooltip__decision" id="palette-tt-decision">
+      <strong>Toma de decisión:</strong> <em>Hue</em> de las métricas. <em>Softness</em> ↑ → más peso en acentos (jerarquía adaptativa). <em>Density</em> ↑ → más peso en fondos. Las proporciones de la barra reflejan el perfil visual del idioma.
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
