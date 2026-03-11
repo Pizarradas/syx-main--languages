@@ -1,0 +1,156 @@
+// PAGE: SCRIPT DECORATIONS
+// ================================================
+// Per-script decorative overrides applied via
+// [data-script] on :root (set by identity engine JS).
+//
+// Each script family gets a unique --app-bg-deco-pattern
+// that evokes its visual/cultural writing tradition.
+// The .org-poem-panel consumes this via background-image.
+//
+// Latin (default)   — clean, no pattern
+// CJK               — grid paper (shoji / washi)
+// Arabic / Persian  — flowing diagonal (calligraphy)
+// Hebrew            — horizontal scan lines (scrolls)
+// Devanagari        — mātrā bar echo (top horizontal bar)
+// Thai              — organic dot field (round letterforms)
+// Greek             — classical column verticals
+// Cyrillic          — Byzantine diagonal gold
+// Hangul            — balanced square module grid
+// ================================================
+
+// ── DEFAULT FALLBACKS (Latin / unrecognised) ────────────────────────
+:root {
+  --app-bg-deco-pattern: none;
+  --app-bg-deco-size:    auto;
+  --app-noise-opacity:   0.02;
+}
+
+// ── CJK (Chinese, Japanese — data-script="cjk") ─────────────────────
+// Evokes washi paper grid and CJK manuscript alignment guides
+:root[data-script="cjk"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 23px,
+      rgba(255, 255, 255, 0.022) 23px, rgba(255, 255, 255, 0.022) 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0, transparent 23px,
+      rgba(255, 255, 255, 0.018) 23px, rgba(255, 255, 255, 0.018) 24px
+    );
+}
+
+// ── ARABIC / PERSIAN (data-script="arabic") ─────────────────────────
+// Evokes flowing calligraphic diagonal strokes
+:root[data-script="arabic"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0, transparent 20px,
+      rgba(255, 255, 255, 0.026) 20px, rgba(255, 255, 255, 0.026) 21px,
+      transparent 21px, transparent 40px
+    );
+}
+
+// ── HEBREW (data-script="hebrew") ───────────────────────────────────
+// Evokes ancient scroll horizontal text lines
+:root[data-script="hebrew"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 22px,
+      rgba(255, 255, 255, 0.024) 22px, rgba(255, 255, 255, 0.024) 23px
+    );
+}
+
+// ── DEVANAGARI (data-script="devanagari") ───────────────────────────
+// Evokes the distinctive mātrā (horizontal bar above letters)
+:root[data-script="devanagari"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 30px,
+      rgba(255, 255, 255, 0.030) 30px, rgba(255, 255, 255, 0.030) 32px,
+      transparent 32px, transparent 36px,
+      rgba(255, 255, 255, 0.012) 36px, rgba(255, 255, 255, 0.012) 37px
+    );
+}
+
+// ── THAI (data-script="thai") ───────────────────────────────────────
+// Evokes the organic circular forms of Thai letterforms
+:root[data-script="thai"] {
+  --app-bg-deco-pattern:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.036) 1px, transparent 1px);
+  --app-bg-deco-size: 18px 18px;
+}
+
+// ── GREEK (data-script="greek") ─────────────────────────────────────
+// Evokes classical column spacing (peristyle/portico motif)
+:root[data-script="greek"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0, transparent 32px,
+      rgba(255, 255, 255, 0.020) 32px, rgba(255, 255, 255, 0.020) 33px
+    );
+}
+
+// ── CYRILLIC (data-script="cyrillic") ───────────────────────────────
+// Evokes Byzantine diagonal gold leaf texture
+:root[data-script="cyrillic"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      58deg,
+      transparent 0, transparent 28px,
+      rgba(255, 255, 255, 0.018) 28px, rgba(255, 255, 255, 0.018) 29px
+    );
+}
+
+// ── HANGUL (data-script="hangul") ───────────────────────────────────
+// Evokes the balanced modular block structure of Hangul syllables
+:root[data-script="hangul"] {
+  --app-bg-deco-pattern:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 19px,
+      rgba(255, 255, 255, 0.015) 19px, rgba(255, 255, 255, 0.015) 20px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0, transparent 19px,
+      rgba(255, 255, 255, 0.012) 19px, rgba(255, 255, 255, 0.012) 20px
+    );
+}
+
+// ── FONT SYNTHESIS per script family ────────────────────────────────
+// Latin (default): allow full synthesis — italic is a genuine
+// typographic tradition and our chosen fonts support it.
+//
+// Non-Latin alphabetic (Cyrillic, Greek): allow weight synthesis only.
+// Italic does exist in Lora for these scripts.
+//
+// Abjads (Arabic, Hebrew), abugidas (Devanagari), syllabaries
+// (Thai, CJK, Hangul): font-synthesis: none — these scripts have no
+// italic convention; synthetic oblique looks incorrect and disrespectful.
+
+:root[data-script="arabic"],
+:root[data-script="hebrew"],
+:root[data-script="devanagari"],
+:root[data-script="thai"],
+:root[data-script="cjk"],
+:root[data-script="hangul"] {
+  .mol-poem-display__line {
+    font-synthesis: none;
+    // Override any inherited italic — these scripts don't use oblique forms
+    font-style: normal;
+  }
+}
+
+:root[data-script="cyrillic"],
+:root[data-script="greek"] {
+  .mol-poem-display__line {
+    // Weight synthesis OK; italic exists in the chosen fonts (Lora)
+    font-synthesis: weight;
+  }
+}
